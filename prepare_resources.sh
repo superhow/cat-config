@@ -5,7 +5,7 @@ local node_type=$1
 local catapult_bin=$2
 local resources_src=$3
 local resources_dest=$4
-local boot_key=$5
+local private_key=$5
 local public_key=$6
 local generation_hash=$7
 local local_path=$PWD
@@ -68,7 +68,7 @@ function prepare_base_resources() {
     run_sed "network" network_pairs
     
     local -A user_pairs=(
-            "bootPrivateKey" "$boot_key"
+            "bootPrivateKey" "$private_key"
             "dataDirectory" "$local_path/data"
             "pluginsDirectory" "$catapult_bin/bin")
     run_sed "user" user_pairs
