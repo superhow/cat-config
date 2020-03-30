@@ -41,6 +41,7 @@ function update_nemesis_block_file() {
     cp "${catapult_bin}/scripts/cat-config/resources/mijin-test.properties" ${local_path}${nemesis_path}
     
     local -A nemesis_pairs=(
+            "networkIdentifier" "${network_type}"
             "cppFile" ""
             "nemesisGenerationHash" "$generation_hash"
             "nemesisSignerPrivateKey" "$nemesis_signer_key"
