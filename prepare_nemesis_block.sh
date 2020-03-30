@@ -4,6 +4,7 @@
 local catapult_bin=$1
 local nemesis_signer_key=$2
 local generation_hash=$3
+local network_type=$4
 local nemesis_path="/nemesis/nemesis-block.properties"
 local harvester_keys_path="harvester_addresses.txt"
 local currency_keys_path="currency_addresses.txt"
@@ -17,11 +18,10 @@ config_form() {
 }
 
 function generate_addresses() {
-    local network=$1
-    local no_of_keys=$2
-    local destination=$3
+    local no_of_keys=$1
+    local destination=$2
     echo "generating addresses"
-    ${catapult_bin}/bin/catapult.tools.address -n "${network}" -g "${no_of_keys}" > "${destination}"
+    ${catapult_bin}/bin/catapult.tools.address -n "${network_type}" -g "${no_of_keys}" > "${destination}"
 }
 
 function run_sed() {
@@ -50,13 +50,9 @@ function update_nemesis_block_file() {
 }
 
 function update_keys() {
-# Keys for mijin-test network
-#    generate_addresses mijin-test 23 ${currency_keys_path}
-#    generate_addresses mijin-test 11 ${harvester_keys_path}
-
-# Keys for mijin network
-    generate_addresses mijin 23 ${currency_keys_path}
-    generate_addresses mijin 11 ${harvester_keys_path}
+# Keys for ${network_type} network
+    generate_addresses 23 ${currency_keys_path}
+    generate_addresses 11 ${harvester_keys_path}
     
     if [[ ! -a $harvester_keys_path ]] then;
         echo "addresses file not generated"
@@ -70,11 +66,11 @@ function update_keys() {
 #    local new_currency_addresses=( $(grep S $currency_keys_path | sed -e 's/address (mijin-test)://g') )
 #    local old_currency_addresses=( $(grep -i -A24 "\bdistribution>cat:currency\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
 
-# Keys for mijin network
-    local new_harvester_addresses=( $(grep M $harvester_keys_path | sed -e 's/address (mijin)://g') )
+# Keys for ${network_type} network
+    local new_harvester_addresses=( $(grep M $harvester_keys_path | sed -e 's/address (${network_type})://g') )
     local old_harvester_addresses=( $(grep -i -A12 "\bdistribution>cat:harvest\b" "${local_path}${nemesis_path}" | grep -o -e "^M.\{40\}") )
     
-    local new_currency_addresses=( $(grep M $currency_keys_path | sed -e 's/address (mijin)://g') )
+    local new_currency_addresses=( $(grep M $currency_keys_path | sed -e 's/address (${network_type})://g') )
     local old_currency_addresses=( $(grep -i -A24 "\bdistribution>cat:currency\b" "${local_path}${nemesis_path}" | grep -o -e "^M.\{40\}") )
     
     ## replace the harvester addresses

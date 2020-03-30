@@ -2,6 +2,7 @@
 
 local script_src=$PWD/scripts/cat-config
 local catapult_bin=$3
+local network_type="mijin"
 
 if [[ -z "$1" ]] then;
     echo "script must be called with one of the three network options: --local | --existing | --foundation"
@@ -64,7 +65,7 @@ function setup_local() {
     echo
     echo "Generating network generation hash (UUID)"
     echo
-    source ${script_src}/generate_hash.sh $2
+    source ${script_src}/generate_hash.sh $2 ${network_type}
     local generation_hash=$(grep "private key:" $PWD/generation_hash.txt | sed -e 's/private key://g' | tr -d ' ')
     
     echo
@@ -75,7 +76,7 @@ function setup_local() {
     echo
     echo "Generating new nemesis block"
     echo
-    source ${script_src}/prepare_nemesis_block.sh $2 $3 ${generation_hash}
+    source ${script_src}/prepare_nemesis_block.sh $2 $3 ${generation_hash} ${network_type}
 }
 
 function setup_foundation() {
