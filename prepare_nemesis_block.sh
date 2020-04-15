@@ -60,17 +60,17 @@ function update_keys() {
     fi
 
 # Keys for mijin-test network    
-#    local new_harvester_addresses=( $(grep S $harvester_keys_path | sed -e 's/address (mijin-test)://g') )
+#    local new_harvester_addresses=( $(grep S $harvester_keys_path | sed -e 's/address ({network_id})://g') )
 #    local old_harvester_addresses=( $(grep -i -A12 "\bdistribution>cat:harvest\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
     
-#    local new_currency_addresses=( $(grep S $currency_keys_path | sed -e 's/address (mijin-test)://g') )
+#    local new_currency_addresses=( $(grep S $currency_keys_path | sed -e 's/address ({network_id})://g') )
 #    local old_currency_addresses=( $(grep -i -A24 "\bdistribution>cat:currency\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
 
 # Keys for ${network_id} network
-    local new_harvester_addresses=( $(grep M $harvester_keys_path | sed 's/address (${network_id})://g') )
+    local new_harvester_addresses=( $(grep M $harvester_keys_path | sed 's/address (mijin)://g') )
     local old_harvester_addresses=( $(grep -i -A12 "\bdistribution>cat:harvest\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
     
-    local new_currency_addresses=( $(grep M $currency_keys_path | sed 's/address (${network_id})://g') )
+    local new_currency_addresses=( $(grep M $currency_keys_path | sed 's/address (mijin)://g') )
     local old_currency_addresses=( $(grep -i -A24 "\bdistribution>cat:currency\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
     
     ## replace the harvester addresses
@@ -105,9 +105,9 @@ function nemgen() {
 
 ######## need to run twice and patch the mosaic id's
 # first time to get cat.harvest and cat.currency
-        ${catapult_bin}/bin/catapult.tools.nemgen --resources ${local_path} --nemesisProperties "${local_path}${nemesis_path}" 2> /tmp/nemgen.log
-        local harvesting_mosaic_id=$(grep "cat.harvest" /tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
-        local currency_mosaic_id=$(grep "cat.currency" /tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
+        ${catapult_bin}/bin/catapult.tools.nemgen --resources ${local_path} --nemesisProperties "${local_path}${nemesis_path}" 2> $local_path/tmp/nemgen.log
+        local harvesting_mosaic_id=$(grep "cat.harvest" $local_path/tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
+        local currency_mosaic_id=$(grep "cat.currency" $local_path/tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
         
 # second time after replacing values for currencyMosaicId and harvestingMosaicId
         sed -i -e "s/^harvestingMosaicId\ .*/harvestingMosaicId = $(config_form ${harvesting_mosaic_id})/" "${local_path}/resources/config-network.properties"
