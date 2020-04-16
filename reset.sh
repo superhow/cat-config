@@ -82,7 +82,7 @@ function setup_existing() {
 function setup_private() {
     
     echo
-    echo "Generating network generation hash (UUID) for local private network"
+    echo "Generating network generation hash (UUID) for Catapult private network"
     echo
     echo "${script_src}/generate_hash.sh ${catapult_bin} ${network_id}"
     source ${script_src}/generate_hash.sh ${catapult_bin} ${network_id}
@@ -119,12 +119,12 @@ function setup_symbol() {
 }
 
 case "${network_type}" in
-    ## Prepare a standalone, single private local node with its own completely new network
+    ## Prepare a standalone, single private Catapult node with its own completely new network
     private)
          
         setup_private
         echo
-        echo "Finished setup local private."
+        echo "Finished setup Catapult private network."
         echo
     ;;
     ## Prepare a node that is capable of connecting to the Symbol public network

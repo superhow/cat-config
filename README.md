@@ -35,9 +35,9 @@ Let's break this down:
 
     <network_option> - This tells the script how to configure the node and network (local, foundation, existing):
 
-    'local' - zsh scripts/cat-config/reset.sh --local <node_type> <path_to_catapult_bin> <private_key> <public_key>. This starts a new chain in independent local node. It has its own new generation hash.
+    'private' - zsh scripts/cat-config/reset.sh private <node_type> <path_to_catapult_bin> <private_key> <public_key>. This starts a new chain in independent Catapult node. It has its own new generation hash.
 
-    'foundation' - to connect to official NEM foundation network
+    'symbol' - to connect to official Symbol public network
 
     'existing' - zsh scripts/cat-config/reset.sh existing <node_type> <path_to_catapult_bin> <private_key> <network_public_key> <template_name>. Resources are loaded from template to join an existing network. You may add your own template by copying the structure in templates/testnet.
 
