@@ -24,9 +24,11 @@ echo "Welcome to the Catapult Config Utility"
 echo
 
 # reapply data directory
-echo "+ preparing fresh data directory"
+echo "+ preparing fresh data and seed directory"
 rm -rf $PWD/data
+rm -rf $PWD/seed
 mkdir $PWD/data
+mkdir $PWD/seed
 
 # clear state directories
 rm -rf state
@@ -57,7 +59,9 @@ rm -rf logs
 # recreate resources
 echo "+ recreating resources"
 rm -rf $PWD/resources
+rm -rf $PWD/nemesis
 mkdir $PWD/resources
+mkdir $PWD/nemesis
 
 function setup_existing() {
     local generation_hash=$(grep "private key:" ${script_src}/templates/${template}/generation_hash.txt | sed 's/private key://g' | tr -d ' ')
