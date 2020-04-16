@@ -98,8 +98,10 @@ function nemgen() {
     
     if [ ! -d ${local_path}/data/00000 ]; then
         echo "running nemgen"
+        mkdir settings
         mkdir -p ${local_path}/seed/00000
         dd if=/dev/zero of=${local_path}/seed/00000/hashes.dat bs=1 count=64
+        cd settings
 
 ######## need to run twice and patch the mosaic id's
 # first time to get cat.harvest and cat.currency
