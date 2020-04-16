@@ -7,7 +7,7 @@ local catapult_bin=$3
 local private_key=$4
 local public_key=$5
 local template=$6
-local network_id="mijin"
+local network_id=mijin
 local script_src=$PWD/scripts/cat-config
 
 if [[ -z "${network_type}" ]] then;
@@ -77,7 +77,7 @@ function setup_local() {
     echo
     echo "Preparing resources"
     echo
-    source ${script_src}/prepare_resources.sh ${node_type} ${catapult_bin} ${script_src}/templates/local $PWD/resources ${private_key} ${public_key} ${generation_hash}
+    source ${script_src}/prepare_resources.sh ${node_type} ${catapult_bin} ${script_src}/templates/local $PWD/resources ${private_key} ${public_key} ${generation_hash} ${network_id}
     
     echo
     echo "Generating new nemesis block"

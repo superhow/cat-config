@@ -9,6 +9,7 @@ local private_key=$5
 local public_key=$6
 local generation_hash=$7
 local local_path=$PWD
+local network_id=$8
 
 function copy_peers() {
     local filename="peers-$1.json"
@@ -57,14 +58,21 @@ function prepare_base_resources() {
             "enableCacheDatabaseStorage" "true"
             "unconfirmedTransactionsCacheMaxSize" "10'000'000"
             "connectTimeout" "15s"
-            "syncTimeout" "120s")
+            "syncTimeout" "120s"
+            "defaultBanDuration" "0h")
     run_sed "node" node_pairs
         
     local -A network_pairs=(
-            "generationHash" "$generation_hash"
-            "publicKey" "$public_key"
+            "identifier" "${network_id}"
+            "generationHash" "${generation_hash}"
+            "publicKey" "${public_key}"
             "totalChainImportance" "17'000'000"
-            "initialCurrencyAtomicUnits" "1'079'999'998'000'000")
+            "initialCurrencyAtomicUnits" "1'079'999'998'000'000"
+            "maxTransactionsPerAggregate" "10'000"
+            "maxCosignaturesPerAggregate" "250"
+            "maxCosignatoriesPerAccount" "250"
+            "maxCosignedAccountsPerAccount" "100'000"
+            "maxNamespaceDuration" "3650d")
     run_sed "network" network_pairs
     
     local -A user_pairs=(
@@ -105,7 +113,7 @@ function prepare_peer_resources() {
     done
     
     local -A node_pairs=(
-            "enableSingleThreadPool" "true"
+            "enableSingleThreadPool" "false"
             "friendlyName" "friendly_peer_node"
             "roles" "Peer")
     run_sed "node" node_pairs
