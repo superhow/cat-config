@@ -21,7 +21,7 @@ function generate_addresses() {
     local no_of_keys=$1
     local destination=$2
     echo "generating addresses"
-    ${catapult_bin}/bin/catapult.tools.address -n "${network_id}" -g "${no_of_keys}" > "${destination}"
+    ${catapult_bin}/bin/catapult.tools.address -n "$network_id" -g "$no_of_keys" > "$destination"
 }
 
 function run_sed() {
@@ -40,21 +40,21 @@ function update_nemesis_block_file() {
     cp "${catapult_bin}/scripts/cat-config/templates/private/mijin-test.properties" ${local_path}${nemesis_path}
     
     local -A nemesis_pairs=(
-            "networkIdentifier" "${network_id}"
+            "networkIdentifier" "$network_id"
             "cppFile" ""
-            "nemesisGenerationHash" "${generation_hash}"
-            "nemesisSignerPrivateKey" "${nemesis_signer_key}"
+            "nemesisGenerationHash" "$generation_hash"
+            "nemesisSignerPrivateKey" "$nemesis_signer_key"
             "binDirectory" "${local_path}/seed")
-    run_sed "nemesis-block" ${nemesis_pairs}
+    run_sed "nemesis-block" nemesis_pairs
     update_keys
 }
 
 function update_keys() {
 # Keys for ${network_id} network
-    generate_addresses 23 ${currency_keys_path}
-    generate_addresses 11 ${harvester_keys_path}
+    generate_addresses 23 $currency_keys_path
+    generate_addresses 11 $harvester_keys_path
     
-    if [[ ! -a ${harvester_keys_path} ]] then;
+    if [[ ! -a $harvester_keys_path ]] then;
         echo "addresses file not generated"
         return 0;
     fi
@@ -67,10 +67,10 @@ function update_keys() {
 #    local old_currency_addresses=( $(grep -i -A24 "\bdistribution>cat:currency\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
 
 # Keys for ${network_id} network
-    local new_harvester_addresses=( $(grep M ${harvester_keys_path} | sed 's/address (mijin)://g') )
+    local new_harvester_addresses=( $(grep M ${harvester_keys_path} | sed -e "s/address (${network_id})://g") )
     local old_harvester_addresses=( $(grep -i -A12 "\bdistribution>cat:harvest\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
     
-    local new_currency_addresses=( $(grep M ${currency_keys_path} | sed 's/address (mijin)://g') )
+    local new_currency_addresses=( $(grep M ${currency_keys_path} | sed -e "s/address (${network_id})://g") )
     local old_currency_addresses=( $(grep -i -A24 "\bdistribution>cat:currency\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
     
     ## replace the harvester addresses
@@ -104,12 +104,12 @@ function nemgen() {
 
 ######## need to run twice and patch the mosaic id's
 # first time to get cat.harvest and cat.currency
-        ${catapult_bin}/bin/catapult.tools.nemgen --resources ${local_path} --nemesisProperties "${local_path}${nemesis_path}" 2> ${local_path}/tmp/nemgen.log
+        ${catapult_bin}/bin/catapult.tools.nemgen --resources $local_path --nemesisProperties "${local_path}${nemesis_path}" 2> ${local_path}/tmp/nemgen.log
         local harvesting_mosaic_id=$(grep "cat.harvest" ${local_path}/tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
         local currency_mosaic_id=$(grep "cat.currency" ${local_path}/tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
         echo
-        echo "Currency #1 ID: ${currency_mosaic_id}"
-        echo "Harvesting #1 ID: ${harvesting_mosaic_id}"
+        echo "Currency #1 ID: $currency_mosaic_id"
+        echo "Harvesting #1 ID: $harvesting_mosaic_id"
         echo
 
 # second time after replacing values for currencyMosaicId and harvestingMosaicId
