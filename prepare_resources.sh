@@ -9,7 +9,7 @@ local private_key=$5
 local public_key=$6
 local generation_hash=$7
 local local_path=$PWD
-local network_id=$8
+network_id=$8
 
 function copy_peers() {
     local filename="peers-$1.json"
@@ -52,15 +52,14 @@ function prepare_base_resources() {
     local -A logging_pairs=(
             "level" "Debug"
             "sinkType" "Async")
-    run_sed "logging-server" logging_pairs
+    run_sed "logging-server" ${logging_pairs}
     
     local -A node_pairs=(
-            "enableCacheDatabaseStorage" "true"
             "unconfirmedTransactionsCacheMaxSize" "10'000'000"
             "connectTimeout" "15s"
             "syncTimeout" "120s"
             "defaultBanDuration" "0h")
-    run_sed "node" node_pairs
+    run_sed "node" ${node_pairs}
         
     local -A network_pairs=(
             "identifier" "${network_id}"
@@ -73,13 +72,13 @@ function prepare_base_resources() {
             "maxCosignatoriesPerAccount" "250"
             "maxCosignedAccountsPerAccount" "100'000"
             "maxNamespaceDuration" "3650d")
-    run_sed "network" network_pairs
+    run_sed "network" ${network_pairs}
     
     local -A user_pairs=(
-            "bootPrivateKey" "$private_key"
-            "dataDirectory" "$local_path/data"
-            "pluginsDirectory" "$catapult_bin/bin")
-    run_sed "user" user_pairs
+            "bootPrivateKey" "${private_key}"
+            "dataDirectory" "${local_path}/data"
+            "pluginsDirectory" "${catapult_bin}/bin")
+    run_sed "user" ${user_pairs}
 }
 
 function prepare_api_resources() {
@@ -92,19 +91,19 @@ function prepare_api_resources() {
     local -A logging_pairs=(
             "level" "Debug"
             "sinkType" "Async")
-    run_sed "logging-broker" logging_pairs
+    run_sed "logging-broker" ${logging_pairs}
     
     local -A node_pairs=(
             "enableAutoSyncCleanup" "false"
             "friendlyName" "friendly_api_node"
             "roles" "Api")
-    run_sed "node" node_pairs
+    run_sed "node" ${node_pairs}
     
     local api_extensions=("filespooling" "partialtransaction")
     local p2p_extensions=("eventsource" "harvesting" "syncsource")
     
-    set_extensions "extensions-server" "true" api_extensions
-    set_extensions "extensions-server" "false" p2p_extensions
+    set_extensions "extensions-server" "true" ${api_extensions}
+    set_extensions "extensions-server" "false" ${p2p_extensions}
 }
 
 function prepare_peer_resources() {
@@ -116,22 +115,22 @@ function prepare_peer_resources() {
             "enableSingleThreadPool" "false"
             "friendlyName" "friendly_peer_node"
             "roles" "Peer")
-    run_sed "node" node_pairs
+    run_sed "node" ${node_pairs}
     
     local -A harvesting_pairs=(
             "harvesterPrivateKey" "HARVESTER_PRIVATE_KEY"
             "enableAutoHarvesting" "true")
-    run_sed "harvesting" harvesting_pairs
+    run_sed "harvesting" ${harvesting_pairs}
 }
 
 function prepare_dual_resources() {
     local -A node_pairs=(
             "friendlyName" "friendly_dual_node"
             "roles" "Api, Peer")
-    run_sed "node" node_pairs
+    run_sed "node" ${node_pairs}
     
     local p2p_extensions=("eventsource" "harvesting" "syncsource")
-    set_extensions "extensions-server" "true" p2p_extensions
+    set_extensions "extensions-server" "true" ${p2p_extensions}
 }
 
 echo "[PREPARING ${node_type} NODE CONFIGURATION]"

@@ -4,10 +4,10 @@
 local catapult_bin=$1
 local nemesis_signer_key=$2
 local generation_hash=$3
-local network_id=$4
-local nemesis_path="/nemesis/nemesis-block.properties"
-local harvester_keys_path="harvester_addresses.txt"
-local currency_keys_path="currency_addresses.txt"
+network_id=$4
+nemesis_path="/nemesis/nemesis-block.properties"
+harvester_keys_path="harvester_addresses.txt"
+currency_keys_path="currency_addresses.txt"
 local local_path=$PWD
 
 ### From catapult-service-bootstrap
@@ -45,7 +45,7 @@ function update_nemesis_block_file() {
             "nemesisGenerationHash" "${generation_hash}"
             "nemesisSignerPrivateKey" "${nemesis_signer_key}"
             "binDirectory" "${local_path}/seed")
-    run_sed "nemesis-block" nemesis_pairs
+    run_sed "nemesis-block" ${nemesis_pairs}
     update_keys
 }
 
@@ -54,7 +54,7 @@ function update_keys() {
     generate_addresses 23 ${currency_keys_path}
     generate_addresses 11 ${harvester_keys_path}
     
-    if [[ ! -a $harvester_keys_path ]] then;
+    if [[ ! -a ${harvester_keys_path} ]] then;
         echo "addresses file not generated"
         return 0;
     fi
@@ -108,8 +108,8 @@ function nemgen() {
         local harvesting_mosaic_id=$(grep "cat.harvest" ${local_path}/tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
         local currency_mosaic_id=$(grep "cat.currency" ${local_path}/tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
         echo
-        echo "Currency #1 ID: $currency_mosaic_id"
-        echo "Harvesting #1 ID: $harvesting_mosaic_id"
+        echo "Currency #1 ID: ${currency_mosaic_id}"
+        echo "Harvesting #1 ID: ${harvesting_mosaic_id}"
         echo
 
 # second time after replacing values for currencyMosaicId and harvestingMosaicId
