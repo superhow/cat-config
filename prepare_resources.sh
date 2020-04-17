@@ -29,9 +29,8 @@ function run_sed() {
     
     # using "#" for delimiters so as to be friendly to paths
     for key value in ${(kv)${(P)2}}; do
-        echo "sed file in $key $value $1 $2 $filename"
         sed -i -e "s#$key =.*#$key = $value#;" ${resources_dest}/${filename}
-        echo "sed file in $key $value $1 $2 $filename"
+        echo "DONE sed file in $key $value $1 $2 $filename"
     done
 }
 
@@ -40,14 +39,15 @@ function set_extensions() {
     echo "updating extensions in $filename"
     
     for key in ${(k)${(P)3}}; do
-        
-        echo "setting extension in $key $1 $2 $3"
         sed -i -e "s/extension.$key = .*/extension.$key = $2/;" ${resources_dest}/${filename}
-        echo "setting extension in $key $1 $2 $3"
+        echo "DONE setting extension in $key $1 $2 $3"
     done
 }
 
 function prepare_base_resources() {
+    echo
+    echo "Starting preparing BASE resources."
+    echo
     copy_peers "p2p"
     
     for extension in "extensions-server" "inflation" "logging-recovery" "extensions-recovery" "logging-server" "network" "networkheight" "node" "task" "timesync" "user"; do
@@ -140,9 +140,19 @@ function prepare_dual_resources() {
 
 echo "[PREPARING $node_type NODE CONFIGURATION]"
 echo
+echo $node_type
+echo $catapult_bin
+echo $resources_src
+echo $resources_dest
+echo $private_key
+echo $public_key
+echo $generation_hash
+echo $local_path
+echo $network_id
+echo
 prepare_base_resources
 echo
-echo "Prepared BASE resources."
+echo "Finished preparing BASE resources."
 echo
 
 case "$node_type" in

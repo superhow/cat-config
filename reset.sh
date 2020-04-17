@@ -73,36 +73,22 @@ mkdir $PWD/nemesis
 
 function setup_existing() {
     local generation_hash=$(grep "private key:" ${script_src}/templates/${template}/generation_hash.txt | sed 's/private key://g' | tr -d ' ')
-    
-    echo
-    echo "${script_src}/prepare_resources.sh $node_type $catapult_bin ${script_src}/templates/${template} $PWD/resources $private_key $public_key $generation_hash"
-    source ${script_src}/prepare_resources.sh $node_type $catapult_bin ${script_src}/templates/${template} $PWD/resources $private_key $public_key $generation_hash
+    source ${script_src}/prepare_resources.sh $node_type $catapult_bin ${script_src}/templates/${template} $PWD/resources $private_key $public_key $generation_hash $network_id
     cp -R ${script_src}/templates/${template}/seed/* $PWD/data
 }
 
 function setup_private() {
-    
     echo
     echo "Generating network generation hash (UUID) for Catapult private network"
-    echo
-    echo "${script_src}/generate_hash.sh $catapult_bin $network_id"
     source ${script_src}/generate_hash.sh $catapult_bin $network_id
     local generation_hash=$(grep "private key:" $PWD/generation_hash.txt | sed 's/private key://g' | tr -d ' ')
-    echo
     echo "Generetion hash is: $generation_hash"
     echo
-    
-    echo
-    echo "Preparing resources"
-    echo
-    echo "${script_src}/prepare_resources.sh $node_type $catapult_bin ${script_src}/templates/private $PWD/resources $private_key $public_key $generation_hash $network_id"
+    echo "Preparing resources:"
     echo
     source ${script_src}/prepare_resources.sh $node_type $catapult_bin ${script_src}/templates/private $PWD/resources $private_key $public_key $generation_hash $network_id
-    
     echo
-    echo "Generating new nemesis block"
-    echo
-    echo "${script_src}/prepare_nemesis_block.sh $catapult_bin $private_key $generation_hash $network_id"
+    echo "Generating new nemesis block:"
     echo
     source ${script_src}/prepare_nemesis_block.sh $catapult_bin $private_key $generation_hash $network_id
 }
