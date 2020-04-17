@@ -9,7 +9,7 @@ local private_key=$5
 local public_key=$6
 local generation_hash=$7
 local local_path=$PWD
-network_id=$8
+local network_id=$8
 
 function copy_peers() {
     local filename="peers-$1.json"
@@ -134,23 +134,38 @@ function prepare_dual_resources() {
 }
 
 echo "[PREPARING ${node_type} NODE CONFIGURATION]"
-
+echo
 prepare_base_resources
+echo
+echo "Prepared BASE resources."
+echo
 
 case "${node_type}" in
-    "api")
+    api)
         prepare_api_resources
+        echo
+        echo "Prepared API resources."
+        echo
     ;;
     
-    "peer")
+    peer)
         prepare_peer_resources
+        echo
+        echo "Prepared PEER resources."
+        echo
     ;;
     
-    "dual")
+    dual)
         prepare_api_resources
         prepare_peer_resources
         prepare_dual_resources
+        echo
+        echo "Prepared DUAL resources."
+        echo
     ;;
     *)
+        echo
+        echo "Prepared NOTHING!."
+        echo
     ;;
 esac

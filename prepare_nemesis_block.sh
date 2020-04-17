@@ -4,10 +4,10 @@
 local catapult_bin=$1
 local nemesis_signer_key=$2
 local generation_hash=$3
-network_id=$4
-nemesis_path="/nemesis/nemesis-block.properties"
-harvester_keys_path="harvester_addresses.txt"
-currency_keys_path="currency_addresses.txt"
+local network_id=$4
+local nemesis_path="/nemesis/nemesis-block.properties"
+local harvester_keys_path="harvester_addresses.txt"
+local currency_keys_path="currency_addresses.txt"
 local local_path=$PWD
 
 ### From catapult-service-bootstrap
