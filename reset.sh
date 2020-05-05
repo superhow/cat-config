@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+set -ex
 local network_type=$1
 local node_type=$2
 local catapult_bin=$3
