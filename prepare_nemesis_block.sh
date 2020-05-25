@@ -41,9 +41,9 @@ function update_nemesis_block_file() {
     
     local -A nemesis_pairs=(
             "networkIdentifier" "$network_id"
-            "cppFile" ""
             "nemesisGenerationHashSeed" "$generation_hash"
             "nemesisSignerPrivateKey" "$nemesis_signer_key"
+            "cppFile" " "
             "binDirectory" "${local_path}/seed")
     run_sed "nemesis-block" nemesis_pairs
     update_keys
@@ -97,9 +97,11 @@ function nemgen() {
 
 ######## need to run twice and patch the mosaic id's
 # first time to get cat.harvest and cat.currency
+        set +e
         ${catapult_bin}/bin/catapult.tools.nemgen --resources $local_path --nemesisProperties "${local_path}${nemesis_path}" 2> ${local_path}/tmp/nemgen.log
         local harvesting_mosaic_id=$(grep "cat.harvest" ${local_path}/tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
         local currency_mosaic_id=$(grep "cat.currency" ${local_path}/tmp/nemgen.log | grep nonce | awk -F= '{split($0, a, / /); print a[9]}' | sort -u)
+        set -e
         echo
         echo "Currency #1 ID: $currency_mosaic_id"
         echo "Harvesting #1 ID: $harvesting_mosaic_id"
