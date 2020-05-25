@@ -18,19 +18,6 @@ if [[ -z "$network_type" ]] then;
     return 0
 fi
 
-echo
-echo "The Catapult Config Utility"
-echo
-echo "network_type = $network_type"
-echo "node_type = $node_type"
-echo "catapult_bin = $catapult_bin"
-echo "private_key = $private_key"
-echo "public_key = $public_key"
-echo "template = $template"
-echo "network_id = $network_id"
-echo "script_src = $script_src"
-echo
-
 # refresh data directory
 echo "+ preparing fresh data and seed directories"
 rm -rf $PWD/data
