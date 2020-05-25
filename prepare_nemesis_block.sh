@@ -51,7 +51,7 @@ function update_nemesis_block_file() {
 
 function update_keys() {
 # Keys for ${network_id} network
-    generate_addresses 23 $currency_keys_path
+    generate_addresses 11 $currency_keys_path
     generate_addresses 11 $harvester_keys_path
     
     if [[ ! -a $harvester_keys_path ]] then;
@@ -59,19 +59,12 @@ function update_keys() {
         return 0;
     fi
 
-# Keys for mijin-test network    
-#    local new_harvester_addresses=( $(grep S $harvester_keys_path | sed -e 's/address (${network_id})://g') )
-#    local old_harvester_addresses=( $(grep -i -A12 "\bdistribution>cat:harvest\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
-    
-#    local new_currency_addresses=( $(grep S $currency_keys_path | sed -e 's/address (${network_id})://g') )
-#    local old_currency_addresses=( $(grep -i -A24 "\bdistribution>cat:currency\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
-
 # Keys for ${network_id} network
     local new_harvester_addresses=( $(grep M ${harvester_keys_path} | sed -e "s/address (${network_id})://g") )
     local old_harvester_addresses=( $(grep -i -A12 "\bdistribution>cat:harvest\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
     
     local new_currency_addresses=( $(grep M ${currency_keys_path} | sed -e "s/address (${network_id})://g") )
-    local old_currency_addresses=( $(grep -i -A24 "\bdistribution>cat:currency\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
+    local old_currency_addresses=( $(grep -i -A12 "\bdistribution>cat:currency\b" "${local_path}${nemesis_path}" | grep -o -e "^S.\{40\}") )
     
     ## replace the harvester addresses
     for i in {1..11}
@@ -80,7 +73,7 @@ function update_keys() {
     done
     
     ## then replace the currency addresses
-    for i in {1..22}
+    for i in {1..11}
     do
         sed_keys "distribution>cat:currency" $old_currency_addresses[$i] $new_currency_addresses[$i]
     done
