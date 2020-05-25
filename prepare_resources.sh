@@ -140,16 +140,6 @@ function prepare_dual_resources() {
 
 echo "[PREPARING $node_type NODE CONFIGURATION]"
 echo
-echo $node_type
-echo $catapult_bin
-echo $resources_src
-echo $resources_dest
-echo $private_key
-echo $public_key
-echo $generation_hash
-echo $local_path
-echo $network_id
-echo
 prepare_base_resources
 echo
 echo "Finished preparing BASE resources."
