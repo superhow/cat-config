@@ -68,10 +68,10 @@ function prepare_base_resources() {
         
     local -A network_pairs=(
             "identifier" "$network_id"
-            "generationHash" "$generation_hash"
             "publicKey" "$public_key"
-            "totalChainImportance" "17'000'000"
+            "generationHashSeed" "$generation_hash"
             "initialCurrencyAtomicUnits" "1'079'999'998'000'000"
+            "totalChainImportance" "17'000'000"
             "maxTransactionsPerAggregate" "10'000"
             "maxCosignaturesPerAggregate" "250"
             "maxCosignatoriesPerAccount" "250"
