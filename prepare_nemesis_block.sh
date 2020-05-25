@@ -1,6 +1,6 @@
 #!/bin/zsh
 # generates the nemesis block properties file and nemesis block
-
+set -ex
 local catapult_bin=$1
 local nemesis_signer_key=$2
 local generation_hash=$3
