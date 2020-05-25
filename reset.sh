@@ -1,5 +1,4 @@
 #!/bin/zsh
-
 set -ex
 local network_type=$1
 local node_type=$2
@@ -20,7 +19,7 @@ if [[ -z "$network_type" ]] then;
 fi
 
 echo
-echo "Welcome to the Catapult Config Utility"
+echo "The Catapult Config Utility"
 echo
 echo "network_type = $network_type"
 echo "node_type = $node_type"
@@ -32,8 +31,8 @@ echo "network_id = $network_id"
 echo "script_src = $script_src"
 echo
 
-# reapply data directory
-echo "+ preparing fresh data and seed directory"
+# refresh data directory
+echo "+ preparing fresh data and seed directories"
 rm -rf $PWD/data
 rm -rf $PWD/seed
 mkdir $PWD/data
@@ -73,6 +72,10 @@ mkdir $PWD/resources
 mkdir $PWD/nemesis
 
 function setup_existing() {
+    echo
+    echo "Generating OpenSSL certificates"
+    echo
+    source ${script_src}/cert_gen.sh
     local generation_hash=$(grep "private key:" ${script_src}/templates/${template}/generation_hash.txt | sed 's/private key://g' | tr -d ' ')
     source ${script_src}/prepare_resources.sh $node_type $catapult_bin ${script_src}/templates/${template} $PWD/resources $private_key $public_key $generation_hash $network_id
     cp -R ${script_src}/templates/${template}/seed/* $PWD/data
@@ -84,6 +87,10 @@ function setup_private() {
     source ${script_src}/generate_hash.sh $catapult_bin $network_id
     local generation_hash=$(grep "private key:" $PWD/generation_hash.txt | sed 's/private key://g' | tr -d ' ')
     echo "Generetion hash is: $generation_hash"
+    echo
+    echo "Generating OpenSSL certificates"
+    echo
+    source ${script_src}/cert_gen.sh
     echo
     echo "Preparing resources:"
     echo
@@ -101,12 +108,15 @@ function setup_symbol() {
     # Generation hash and network public key from configuration for the Symbol network
     local generation_hash=CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B
     local network_public_key=A3CE86263CD000F45867A6B5A396A521AF4557D9A6BD3C796478A9BF40BF4F4C
-    echo "${script_src}/prepare_resources.sh $node_type $catapult_bin ${script_src}/templates/symbol $PWD/resources $private_key $network_public_key $generation_hash"
-    echo
     source ${script_src}/prepare_resources.sh $node_type $catapult_bin ${script_src}/templates/symbol $PWD/resources $private_key $network_public_key $generation_hash
     
     cp -R ${script_src}/templates/symbol/seed/* $PWD/data
     cp -R ${script_src}/templates/symbol/seed/* $PWD/seed
+    echo
+    echo "Generating OpenSSL certificates"
+    echo
+    source ${script_src}/cert_gen.sh
+    echo "DONE"
 }
 
 case "$network_type" in

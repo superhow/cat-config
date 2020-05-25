@@ -2,12 +2,12 @@
 default_ca = CA_default
 
 [CA_default]
-new_certs_dir = {{new_certs_dir}}
-database = {{database_file}}
-serial   = {{serial_file}}
+new_certs_dir = ./new_certs
+database = index.txt
+serial   = serial.dat
 
-private_key = {{private_key}}
-certificate = {{certificate}}
+private_key = ca.key.pem
+certificate = ca.cert.pem
 
 policy = policy_catapult
 
@@ -19,4 +19,4 @@ prompt = no
 distinguished_name = dn
 
 [dn]
-CN = {{name}}-account
+CN = peer-node-1-account

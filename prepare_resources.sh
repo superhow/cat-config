@@ -80,7 +80,7 @@ function prepare_base_resources() {
     run_sed "network" network_pairs
     
     local -A user_pairs=(
-            "bootPrivateKey" "$private_key"
+            "certificateDirectory" "${local_path}/certificate"
             "dataDirectory" "${local_path}/data"
             "pluginsDirectory" "${catapult_bin}/bin")
     run_sed "user" user_pairs
@@ -105,7 +105,7 @@ function prepare_api_resources() {
     run_sed "node" node_pairs
     
     local api_extensions=("filespooling" "partialtransaction")
-    local p2p_extensions=("eventsource" "harvesting" "syncsource")
+    local p2p_extensions=("harvesting" "syncsource")
     
     set_extensions "extensions-server" "true" api_extensions
     set_extensions "extensions-server" "false" p2p_extensions
@@ -117,7 +117,7 @@ function prepare_peer_resources() {
     done
     
     local -A node_pairs=(
-            "enableSingleThreadPool" "false"
+            "enableSingleThreadPool" "true"
             "friendlyName" "friendly_peer_node"
             "roles" "Peer")
     run_sed "node" node_pairs
@@ -134,7 +134,7 @@ function prepare_dual_resources() {
             "roles" "Api, Peer")
     run_sed "node" node_pairs
     
-    local p2p_extensions=("eventsource" "harvesting" "syncsource")
+    local p2p_extensions=("harvesting" "syncsource")
     set_extensions "extensions-server" "true" p2p_extensions
 }
 
