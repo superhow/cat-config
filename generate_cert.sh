@@ -66,3 +66,4 @@ openssl verify -CAfile ca.cert.pem node.crt.pem
 
 # finally create full crt
 cat node.crt.pem ca.cert.pem > node.full.crt.pem
+cd ..
