@@ -1,4 +1,8 @@
-cat <<EOF>ca.cnf
+#!/bin/zsh
+mkdir -p certificate/
+cd certificate/
+
+cat <<EOF > ca.cnf
 [ca]
 default_ca = CA_default
 
@@ -23,7 +27,7 @@ distinguished_name = dn
 CN = peer-node-1-account
 EOF
 
-cat <<EOF> node.cnf
+cat <<EOF > node.cnf
 [req]
 prompt = no
 distinguished_name = dn
@@ -50,7 +54,7 @@ openssl pkey -inform pem -in node.key.pem -text -noout
 
 # create request
 openssl req -config node.cnf -key node.key.pem -new -out node.csr.pem
-openssl req  -text -noout -verify -in node.csr.pem
+openssl req -text -noout -verify -in node.csr.pem
 
 # CA side
 # create serial

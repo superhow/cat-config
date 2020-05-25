@@ -42,7 +42,7 @@ function update_nemesis_block_file() {
     local -A nemesis_pairs=(
             "networkIdentifier" "$network_id"
             "cppFile" ""
-            "nemesisGenerationHash" "$generation_hash"
+            "nemesisGenerationHashSeed" "$generation_hash"
             "nemesisSignerPrivateKey" "$nemesis_signer_key"
             "binDirectory" "${local_path}/seed")
     run_sed "nemesis-block" nemesis_pairs
