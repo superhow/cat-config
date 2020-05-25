@@ -75,7 +75,7 @@ function setup_existing() {
     echo
     echo "Generating OpenSSL certificates"
     echo
-    source ${script_src}/cert_gen.sh
+    source ${script_src}/generate_cert.sh
     local generation_hash=$(grep "private key:" ${script_src}/templates/${template}/generation_hash.txt | sed 's/private key://g' | tr -d ' ')
     source ${script_src}/prepare_resources.sh $node_type $catapult_bin ${script_src}/templates/${template} $PWD/resources $private_key $public_key $generation_hash $network_id
     cp -R ${script_src}/templates/${template}/seed/* $PWD/data
@@ -90,7 +90,7 @@ function setup_private() {
     echo
     echo "Generating OpenSSL certificates"
     echo
-    source ${script_src}/cert_gen.sh
+    source ${script_src}/generate_cert.sh
     echo
     echo "Preparing resources:"
     echo
@@ -115,7 +115,7 @@ function setup_symbol() {
     echo
     echo "Generating OpenSSL certificates"
     echo
-    source ${script_src}/cert_gen.sh
+    source ${script_src}/generate_cert.sh
     echo "DONE"
 }
 
