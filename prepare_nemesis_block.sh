@@ -37,7 +37,7 @@ function sed_keys() {
 }
 
 function update_nemesis_block_file() {
-    cp "${catapult_bin}/scripts/cat-config/templates/private/mijin-test.properties" ${local_path}${nemesis_path}
+    cp "${local_path}/scripts/cat-config/templates/private/mijin-test.properties" ${local_path}${nemesis_path}
     
     local -A nemesis_pairs=(
             "networkIdentifier" "$network_id"
