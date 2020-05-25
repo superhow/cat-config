@@ -33,7 +33,7 @@ prompt = no
 distinguished_name = dn
 
 [dn]
-CN = peer-node-1
+CN = dual-node-1
 EOF
 
 mkdir new_certs && chmod 700 new_certs
