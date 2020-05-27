@@ -24,7 +24,7 @@ prompt = no
 distinguished_name = dn
 
 [dn]
-CN = peer-node-1-account
+CN = cat-ca-superhow
 EOF
 
 cat <<EOF > node.cnf
@@ -33,7 +33,7 @@ prompt = no
 distinguished_name = dn
 
 [dn]
-CN = dual-node-1
+CN = cat-node-superhow
 EOF
 
 mkdir new_certs && chmod 700 new_certs
