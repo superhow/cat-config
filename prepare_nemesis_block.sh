@@ -8,6 +8,7 @@ local network_id=$4
 local nemesis_path="/nemesis/nemesis-block.properties"
 local harvester_keys_path="harvester_addresses.txt"
 local currency_keys_path="currency_addresses.txt"
+local vrf_keys_path="vrf_keys.txt"
 local local_path=$PWD
 
 ### From catapult-service-bootstrap
@@ -44,7 +45,8 @@ function update_nemesis_block_file() {
             "nemesisGenerationHashSeed" "$generation_hash"
             "nemesisSignerPrivateKey" "$nemesis_signer_key"
             "cppFile" " "
-            "binDirectory" "${local_path}/seed")
+            "binDirectory" "${local_path}/seed"
+            "transactionsDirectory" "${local_path}/txdata")
     run_sed "nemesis-block" nemesis_pairs
     update_keys
 }
