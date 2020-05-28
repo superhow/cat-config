@@ -38,6 +38,7 @@ EOF
 
 mkdir new_certs && chmod 700 new_certs
 touch index.txt
+touch index.txt.attr
 
 # create CA serial
 openssl rand -hex 19 > ./serial.dat
