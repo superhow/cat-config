@@ -8,8 +8,8 @@ default_ca = CA_default
 
 [CA_default]
 new_certs_dir = ./new_certs
-database = index.txt
-serial   = serial.dat
+database = ./index.txt
+serial   = ./serial.dat
 
 private_key = ca.key.pem
 certificate = ca.cert.pem
@@ -39,6 +39,9 @@ EOF
 mkdir new_certs && chmod 700 new_certs
 touch index.txt
 
+# create CA serial
+openssl rand -hex 19 > ./serial.dat
+
 # create CA key
 openssl genpkey -out ca.key.pem -outform PEM -algorithm ed25519
 openssl pkey -inform pem -in ca.key.pem -text -noout
@@ -52,15 +55,11 @@ openssl x509 -in ca.cert.pem  -text -noout
 openssl genpkey -out node.key.pem -outform PEM -algorithm ed25519
 openssl pkey -inform pem -in node.key.pem -text -noout
 
-# create request
+# create node request
 openssl req -config node.cnf -key node.key.pem -new -out node.csr.pem
 openssl req -text -noout -verify -in node.csr.pem
 
-# CA side
-# create serial
-openssl rand -hex 19 > ./serial.dat
-
-# sign cert for 375 days
+# sign node cert for 375 days
 openssl ca -config ca.cnf -days 375 -notext -in node.csr.pem -out node.crt.pem
 openssl verify -CAfile ca.cert.pem node.crt.pem
 
