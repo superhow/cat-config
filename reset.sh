@@ -25,11 +25,6 @@ rm -rf $PWD/seed
 mkdir $PWD/data
 mkdir $PWD/seed
 
-if [ ! -f "/data/index.dat" ]; then
-    echo "No index.dat file, creating now...."
-    echo -ne "\01\0\0\0\0\0\0\0" > $PWD/data/index.dat
-fi
-
 # clear state directories
 rm -rf state
 rm -rf statedb
