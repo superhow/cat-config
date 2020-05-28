@@ -71,7 +71,7 @@ function prepare_base_resources() {
             "publicKey" "$public_key"
             "generationHashSeed" "$generation_hash"
             "initialCurrencyAtomicUnits" "1'079'999'998'000'000"
-            "totalChainImportance" "20'000'000"
+            "totalChainImportance" "30'000'000"
             "maxTransactionsPerAggregate" "10'000"
             "maxCosignaturesPerAggregate" "250"
             "maxCosignatoriesPerAccount" "250"
