@@ -8,8 +8,8 @@ default_ca = CA_default
 
 [CA_default]
 new_certs_dir = ./new_certs
-database = ./index.txt
-serial   = ./serial.dat
+database = index.txt
+serial   = serial.dat
 
 private_key = ca.key.pem
 certificate = ca.cert.pem
@@ -55,6 +55,7 @@ openssl x509 -in ca.cert.pem  -text -noout
 # create node key
 openssl genpkey -out node.key.pem -outform PEM -algorithm ed25519
 openssl pkey -inform pem -in node.key.pem -text -noout
+openssl pkey -in node.key.pem -pubout -out node.pubkey.pem
 
 # create node request
 openssl req -config node.cnf -key node.key.pem -new -out node.csr.pem
