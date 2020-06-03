@@ -71,7 +71,8 @@ function prepare_base_resources() {
             "publicKey" "$public_key"
             "generationHashSeed" "$generation_hash"
             "initialCurrencyAtomicUnits" "1'079'999'998'000'000"
-            "totalChainImportance" "30'000'000"
+            "totalChainImportance" "36'000'000"
+            "maxHarvesterBalance" "50'000'000"
             "maxTransactionsPerAggregate" "10'000"
             "maxCosignaturesPerAggregate" "250"
             "maxCosignatoriesPerAccount" "250"
@@ -118,8 +119,11 @@ function prepare_peer_resources() {
     
     local -A node_pairs=(
             "enableSingleThreadPool" "true"
+            "enableDispatcherAbortWhenFull" "false"
+            "enableDispatcherInputAuditing" "false"
             "friendlyName" "friendly_peer_node"
-            "roles" "Peer")
+            "roles" "Peer"
+            "numConsecutiveFailuresBeforeBanning" "6")
     run_sed "node" node_pairs
     
     local -A harvesting_pairs=(
@@ -130,6 +134,9 @@ function prepare_peer_resources() {
 
 function prepare_dual_resources() {
     local -A node_pairs=(
+            "enableSingleThreadPool" "false"
+            "enableDispatcherAbortWhenFull" "true"
+            "enableDispatcherInputAuditing" "false"
             "friendlyName" "friendly_dual_node"
             "roles" "Api, Peer")
     run_sed "node" node_pairs
