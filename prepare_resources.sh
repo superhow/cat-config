@@ -107,9 +107,11 @@ function prepare_api_resources() {
     
     local api_extensions=("filespooling" "partialtransaction")
     local p2p_extensions=("harvesting" "syncsource")
+    local recovery_extensions=("addressextraction" "mongo" "zeromq")
     
     set_extensions "extensions-server" "true" api_extensions
     set_extensions "extensions-server" "false" p2p_extensions
+    set_extensions "extensions-recovery" "true" recovery_extensions
 }
 
 function prepare_peer_resources() {
