@@ -22,8 +22,10 @@ fi
 echo "+ preparing fresh data and seed directories"
 rm -rf $PWD/data
 rm -rf $PWD/seed
+rm -rf $PWD/txdata
 mkdir $PWD/data
 mkdir $PWD/seed
+mkdir $PWD/txdata
 
 # clear state directories
 rm -rf state
