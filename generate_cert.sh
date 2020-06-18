@@ -24,7 +24,7 @@ prompt = no
 distinguished_name = dn
 
 [dn]
-CN = cat-ca-superhow
+CN = cat-ca-node
 EOF
 
 cat <<EOF > node.cnf
@@ -33,7 +33,7 @@ prompt = no
 distinguished_name = dn
 
 [dn]
-CN = cat-node-superhow
+CN = cat-rest-node
 EOF
 
 mkdir new_certs && chmod 700 new_certs
