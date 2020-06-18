@@ -8,7 +8,29 @@
         "port": 7900
       },
       "metadata": {
-        "name": "peernode",
+        "name": "peernode-1",
+        "roles": "Peer"
+      }
+    },
+    {
+      "publicKey": "0000000000000000000000000000000000000000000000000000000000000000",
+      "endpoint": {
+        "host": "127.0.0.1",
+        "port": 7900
+      },
+      "metadata": {
+        "name": "peernode-2",
+        "roles": "Peer"
+      }
+    },
+    {
+      "publicKey": "0000000000000000000000000000000000000000000000000000000000000000",
+      "endpoint": {
+        "host": "127.0.0.1",
+        "port": 7900
+      },
+      "metadata": {
+        "name": "peernode-3",
         "roles": "Peer"
       }
     }
